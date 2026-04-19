@@ -1,9 +1,14 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+
 
 public class DM_ContentTypeUI : MonoBehaviour
 {
+    public delegate void SelectedContentFunc();
+    public static event SelectedContentFunc OnSelectedContent;
+    
     private enum State
     {
         Default,
@@ -31,19 +36,17 @@ public class DM_ContentTypeUI : MonoBehaviour
     [SerializeField] private Button confirmButton;
     [SerializeField] private GameObject infoPopUp;
     [SerializeField] private TextMeshProUGUI infoPopUpText;
-
+    [SerializeField] private Canvas organicButtonsCanvas;
+    [SerializeField] private Canvas paidButtonsCanvas;
+    [SerializeField] private Canvas popUpCanvas;
+      
+      
     private State state;
     private string chosenContent = null;
 
 
-
     private void Awake()
     {
-        ShowCanvas();
-        HideOrganicOptions();
-        HidePaidOptions();
-        HideInfoPopUp();
-        
         organicContentButton.onClick.AddListener(() =>
         {
             HideOrganicPaidButtons();
@@ -69,6 +72,10 @@ public class DM_ContentTypeUI : MonoBehaviour
 
         state = State.Default;
 
+        ShowContentCanvas();
+        HideOrganicOptions();
+        HidePaidOptions();
+        HideInfoPopUp();
     }
 
     private void Start()
@@ -118,6 +125,17 @@ public class DM_ContentTypeUI : MonoBehaviour
     }
 
 
+    private void ConfirmButtonChoice()
+    {
+        HideContentCanvas();
+
+        state = State.Default;
+        Debug.Log(chosenContent);
+
+        OnSelectedContent?.Invoke();
+    }
+
+    
     private void ShowOrganicPaidButtons()
     {
         organicContentButton.gameObject.SetActive(true);
@@ -133,71 +151,44 @@ public class DM_ContentTypeUI : MonoBehaviour
     
     private void ShowOrganicOptions()
     {
-        emailButton.gameObject.SetActive(true);
-        graphicButton.gameObject.SetActive(true);
-        videoButton.gameObject.SetActive(true);
-        textButton.gameObject.SetActive(true);
+        organicButtonsCanvas.gameObject.SetActive(true);
     }
 
     private void HideOrganicOptions()
     {
-        emailButton.gameObject.SetActive(false);
-        graphicButton.gameObject.SetActive(false);
-        videoButton.gameObject.SetActive(false);
-        textButton.gameObject.SetActive(false);
+        organicButtonsCanvas.gameObject.SetActive(false);
     }
 
 
     private void ShowPaidOptions()
     {
-        clickableAdButton.gameObject.SetActive(true);
-        influencerOutreachButton.gameObject.SetActive(true);
-        seoButton.gameObject.SetActive(true);
-        videoAdButton.gameObject.SetActive(true);
+        paidButtonsCanvas.gameObject.SetActive(true);
     }
 
-    
     private void HidePaidOptions()
     {
-        clickableAdButton.gameObject.SetActive(false);
-        influencerOutreachButton.gameObject.SetActive(false);
-        seoButton.gameObject.SetActive(false);
-        videoAdButton.gameObject.SetActive(false);
+        paidButtonsCanvas.gameObject.SetActive(false);
     }
 
 
     private void ShowInfoPopUp()
     {
-        infoPopUp.gameObject.SetActive(true);
-        confirmButton.gameObject.SetActive(true);
+        popUpCanvas.gameObject.SetActive(true);
     }
 
     private void HideInfoPopUp()
     {
-        infoPopUp.gameObject.SetActive(false);
-        confirmButton.gameObject.SetActive(false);
+        popUpCanvas.gameObject.SetActive(false);
     }
 
 
-    private void ConfirmButtonChoice()
-    {
-        // HideOrganicPaidButtons();
-        // HideOrganicOptions();
-        // HidePaidOptions();
-        // HideInfoPopUp();
-
-        HideCanvas();
-
-        state = State.Default;
-        Debug.Log(chosenContent);
-    }
-
-    private void ShowCanvas()
+    private void ShowContentCanvas()
     {
         gameObject.SetActive(true);
+        Debug.Log("showContent");
     }
     
-    private void HideCanvas()
+    private void HideContentCanvas()
     {
         gameObject.SetActive(false);
     }
