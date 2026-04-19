@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "DigitalNESTCareerEx.slnx"
+    "dotnet.defaultSolution": "DigitalNESTCareerExploration.slnx"
 }

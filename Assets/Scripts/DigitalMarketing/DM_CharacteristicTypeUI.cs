@@ -1,20 +1,21 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class DM_CharacteristicTypeUI : MonoBehaviour
 {
     private enum State
     {
         Default,
-        Email,
-        Graphic,
-        Video,
-        Text,
-        ClickableAd,
-        InfluencerOutreach,
-        SEOButton,
-        VideoAd
+        HighQuality,
+        BudgetFriendly,
+        PackageDesign,
+        EthicallyMade,
+        Convenient,
+        EcoFriendly,
+        UniqueDesign,
+        Familiarity
     }
 
 
@@ -29,6 +30,8 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
     [SerializeField] private Button confirmButton;
     [SerializeField] private GameObject infoPopUp;
     [SerializeField] private TextMeshProUGUI infoPopUpText;
+    [SerializeField] private Canvas popUpCanvas;
+      
 
 
     private State state;
@@ -37,36 +40,105 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
 
     private void Awake()
     {
-        highQualityButton.onClick.AddListener(() => { state = State.Email; ShowInfoPopUp();});
-        budgetFriendlyButton.onClick.AddListener(() => { state = State.Graphic; ShowInfoPopUp();});
-        packageDesignButton.onClick.AddListener(() => { state = State.Video; ShowInfoPopUp();});
-        ethicallyMadeButton.onClick.AddListener(() => { state = State.Text; ShowInfoPopUp();});
-        convenientButton.onClick.AddListener(() => { state = State.ClickableAd; ShowInfoPopUp();});
-        ecoFriendlyButton.onClick.AddListener(() => { state = State.InfluencerOutreach; ShowInfoPopUp();});
-        uniqueDesignButton.onClick.AddListener(() => { state = State.SEOButton; ShowInfoPopUp();});
-        familiarityButton.onClick.AddListener(() => { state = State.VideoAd; ShowInfoPopUp();});
+        DM_ContentTypeUI.OnSelectedContent += OnSelectedContent;
+
+        highQualityButton.onClick.AddListener(() => { state = State.HighQuality; ShowInfoPopUp();});
+        budgetFriendlyButton.onClick.AddListener(() => { state = State.BudgetFriendly; ShowInfoPopUp();});
+        packageDesignButton.onClick.AddListener(() => { state = State.PackageDesign; ShowInfoPopUp();});
+        ethicallyMadeButton.onClick.AddListener(() => { state = State.EthicallyMade; ShowInfoPopUp();});
+        convenientButton.onClick.AddListener(() => { state = State.Convenient; ShowInfoPopUp();});
+        ecoFriendlyButton.onClick.AddListener(() => { state = State.EcoFriendly; ShowInfoPopUp();});
+        uniqueDesignButton.onClick.AddListener(() => { state = State.UniqueDesign; ShowInfoPopUp();});
+        familiarityButton.onClick.AddListener(() => { state = State.Familiarity; ShowInfoPopUp();});
 
         confirmButton.onClick.AddListener(() => { state = State.Default; ConfirmButtonChoice();});
 
         state = State.Default;
 
+        HideCharacteristicCanvas();
+        HideInfoPopUp();
+
+        Debug.Log("awake");
+    }
+
+
+    public void OnSelectedContent()
+    {
+        ShowCharacteristicCanvas();
+        Debug.Log("OnSelectedCanvas");
+    }
+
+
+    private void Update()
+    {
+        if (state != State.Default)
+            switch (state)
+            {
+                case State.HighQuality:
+                    infoPopUpText.text = "This characteristic targets those who value high quality.";
+                    chosenCharacteristic = "HighQuality";
+                    break;
+                case State.BudgetFriendly:
+                    infoPopUpText.text = "This characteristic targets those who value budget friendly products.";
+                    chosenCharacteristic = "BudgetFriendly";
+                    break;
+                case State.PackageDesign:
+                    infoPopUpText.text = "This characteristic targets those who value package design.";
+                    chosenCharacteristic = "PackageDesign";
+                    break;
+                case State.EthicallyMade:
+                    infoPopUpText.text = "This characteristic targets those who value ethically made products.";
+                    chosenCharacteristic = "EthicallyMade";
+                    break;
+                case State.Convenient:
+                    infoPopUpText.text = "This characteristic targets those who value convenience.";
+                    chosenCharacteristic = "Convenient";
+                    break;
+                case State.EcoFriendly:
+                    infoPopUpText.text = "This characteristic targets those who value eco-friendly products.";
+                    chosenCharacteristic = "EcoFriendly";
+                    break;
+                case State.UniqueDesign:
+                    infoPopUpText.text = "This characteristic targets those who value unique design.";
+                    chosenCharacteristic = "UniqueDesign";
+                    break;
+                case State.Familiarity:
+                    infoPopUpText.text = "This characteristic targets those who value familiarity.";
+                    chosenCharacteristic = "Familiarity";
+                    break;
+            }
     }
 
 
     private void ShowInfoPopUp()
     {
-        infoPopUp.gameObject.SetActive(true);
+        popUpCanvas.gameObject.SetActive(true);
     }
 
     private void HideInfoPopUp()
     {
-        infoPopUp.gameObject.SetActive(false);
+        popUpCanvas.gameObject.SetActive(false);
     }
+
 
     private void ConfirmButtonChoice()
     {
-        HideInfoPopUp();
+        HideCharacteristicCanvas();
 
         state = State.Default;
+        Debug.Log(chosenCharacteristic);
     }
+
+
+    private void ShowCharacteristicCanvas()
+    {
+        gameObject.SetActive(true);
+        Debug.Log("showCharacter");
+    }
+    
+    private void HideCharacteristicCanvas()
+    {
+        gameObject.SetActive(false);
+    }
+
 }
