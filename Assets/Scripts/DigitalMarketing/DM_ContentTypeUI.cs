@@ -18,7 +18,7 @@ public class DM_ContentTypeUI : MonoBehaviour
         Text,
         ClickableAd,
         InfluencerOutreach,
-        SEOButton,
+        SEO,
         VideoAd
     }
 
@@ -40,9 +40,9 @@ public class DM_ContentTypeUI : MonoBehaviour
     [SerializeField] private Canvas paidButtonsCanvas;
     [SerializeField] private Canvas popUpCanvas;
       
-      
+
     private State state;
-    private string chosenContent = null;
+    public string chosenContent = null;
 
 
     private void Awake()
@@ -65,7 +65,7 @@ public class DM_ContentTypeUI : MonoBehaviour
         textButton.onClick.AddListener(() => { state = State.Text; ShowInfoPopUp();});
         clickableAdButton.onClick.AddListener(() => { state = State.ClickableAd; ShowInfoPopUp();});
         influencerOutreachButton.onClick.AddListener(() => { state = State.InfluencerOutreach; ShowInfoPopUp();});
-        seoButton.onClick.AddListener(() => { state = State.SEOButton; ShowInfoPopUp();});
+        seoButton.onClick.AddListener(() => { state = State.SEO; ShowInfoPopUp();});
         videoAdButton.onClick.AddListener(() => { state = State.VideoAd; ShowInfoPopUp();});
 
         confirmButton.onClick.AddListener(() => { state = State.Default; ConfirmButtonChoice();});
@@ -113,7 +113,7 @@ public class DM_ContentTypeUI : MonoBehaviour
                     infoPopUpText.text = "This is influencer outreach";
                     chosenContent = "InfluencerOutreach";
                     break;
-                case State.SEOButton:
+                case State.SEO:
                     infoPopUpText.text = "This is SEO";
                     chosenContent = "SEO";
                     break;
@@ -185,7 +185,6 @@ public class DM_ContentTypeUI : MonoBehaviour
     private void ShowContentCanvas()
     {
         gameObject.SetActive(true);
-        Debug.Log("showContent");
     }
     
     private void HideContentCanvas()

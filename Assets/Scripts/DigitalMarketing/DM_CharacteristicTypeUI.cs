@@ -5,6 +5,9 @@ using System;
 
 public class DM_CharacteristicTypeUI : MonoBehaviour
 {
+    public delegate void DetermineWinStateFunc();
+    public static event DetermineWinStateFunc OnDetermineWinState;
+    
     private enum State
     {
         Default,
@@ -35,7 +38,7 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
 
 
     private State state;
-    private string chosenCharacteristic = null;
+    public string chosenCharacteristic = null;
 
 
     private void Awake()
@@ -57,15 +60,12 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
 
         HideCharacteristicCanvas();
         HideInfoPopUp();
-
-        Debug.Log("awake");
     }
 
 
     public void OnSelectedContent()
     {
         ShowCharacteristicCanvas();
-        Debug.Log("OnSelectedCanvas");
     }
 
 
@@ -110,6 +110,17 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
     }
 
 
+    private void ConfirmButtonChoice()
+    {
+        HideCharacteristicCanvas();
+
+        state = State.Default;
+        Debug.Log(chosenCharacteristic);
+
+        OnDetermineWinState?.Invoke();
+    }
+
+    
     private void ShowInfoPopUp()
     {
         popUpCanvas.gameObject.SetActive(true);
@@ -118,15 +129,6 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
     private void HideInfoPopUp()
     {
         popUpCanvas.gameObject.SetActive(false);
-    }
-
-
-    private void ConfirmButtonChoice()
-    {
-        HideCharacteristicCanvas();
-
-        state = State.Default;
-        Debug.Log(chosenCharacteristic);
     }
 
 
