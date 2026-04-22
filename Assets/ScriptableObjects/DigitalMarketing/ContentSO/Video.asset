@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DM_ContentSO
   contentType: Organic
   contentName: Video
+  contentDescription: Follow a trend or make short original content for social media.
+  contentQuestion1: v1
+  contentQuestion2: v2
+  contentQuestion3: v3

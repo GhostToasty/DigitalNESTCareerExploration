@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DM_ContentSO
   contentType: Organic
   contentName: Graphic
+  contentDescription: Spread the word on social media with a visual eye-catching
+    pop!
+  contentQuestion1: g1
+  contentQuestion2: g2
+  contentQuestion3: g3

@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DM_ContentSO
   contentType: Organic
   contentName: Text
+  contentDescription: Share a tweet or blog post to get people excited about your
+    product.
+  contentQuestion1: t1
+  contentQuestion2: t2
+  contentQuestion3: t3

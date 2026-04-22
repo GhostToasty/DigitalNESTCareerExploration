@@ -5,6 +5,9 @@ using System;
 
 public class DM_CharacteristicTypeUI : MonoBehaviour
 {
+    // [SerializeField] DM_CharacteristicSO characteristicSO;
+    [SerializeField] DM_CharacteristicListSO characteristicListSO;
+    
     public delegate void DetermineWinStateFunc();
     public static event DetermineWinStateFunc OnDetermineWinState;
     
@@ -30,15 +33,21 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
     [SerializeField] private Button ecoFriendlyButton;
     [SerializeField] private Button uniqueDesignButton;
     [SerializeField] private Button familiarityButton;
-    [SerializeField] private Button confirmButton;
+    [SerializeField] private Button confirmCharButton;
+    [SerializeField] private Button confirmQuestionButton;
     [SerializeField] private GameObject infoPopUp;
     [SerializeField] private TextMeshProUGUI infoPopUpText;
     [SerializeField] private Canvas popUpCanvas;
-      
-
+    [SerializeField] private Canvas characteristicButtonCanvas;
+    [SerializeField] private Canvas characteristicQuestionCanvas;
+    [SerializeField] private TextMeshProUGUI question1ButtonText;
+    [SerializeField] private TextMeshProUGUI question2ButtonText;
+    [SerializeField] private TextMeshProUGUI question3ButtonText;
+    
 
     private State state;
-    public string chosenCharacteristic = null;
+    public DM_CharacteristicSO chosenCharacteristicSO;
+
 
 
     private void Awake()
@@ -54,18 +63,22 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
         uniqueDesignButton.onClick.AddListener(() => { state = State.UniqueDesign; ShowInfoPopUp();});
         familiarityButton.onClick.AddListener(() => { state = State.Familiarity; ShowInfoPopUp();});
 
-        confirmButton.onClick.AddListener(() => { state = State.Default; ConfirmButtonChoice();});
+        confirmCharButton.onClick.AddListener(() => { state = State.Default; ConfirmCharButtonChoice();});
+        confirmQuestionButton.onClick.AddListener(() => { state = State.Default; ConfirmQuestionButtonChoice();});
 
         state = State.Default;
 
         HideCharacteristicCanvas();
         HideInfoPopUp();
+        HideCharacteristicQuestionCanvas();
+        HideCharacteristicButtonCanvas();
     }
 
 
     public void OnSelectedContent()
     {
         ShowCharacteristicCanvas();
+        ShowCharacteristicButtonCanvas();
     }
 
 
@@ -75,51 +88,77 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
             switch (state)
             {
                 case State.HighQuality:
-                    infoPopUpText.text = "This characteristic targets those who value high quality.";
-                    chosenCharacteristic = "HighQuality";
+                    GetMatchingCharacteristicSO("HighQuality");
                     break;
                 case State.BudgetFriendly:
-                    infoPopUpText.text = "This characteristic targets those who value budget friendly products.";
-                    chosenCharacteristic = "BudgetFriendly";
+                    GetMatchingCharacteristicSO("BudgetFriendly");
                     break;
                 case State.PackageDesign:
-                    infoPopUpText.text = "This characteristic targets those who value package design.";
-                    chosenCharacteristic = "PackageDesign";
+                    GetMatchingCharacteristicSO("PackageDesign");
                     break;
                 case State.EthicallyMade:
-                    infoPopUpText.text = "This characteristic targets those who value ethically made products.";
-                    chosenCharacteristic = "EthicallyMade";
+                    GetMatchingCharacteristicSO("EthicallyMade");
                     break;
                 case State.Convenient:
-                    infoPopUpText.text = "This characteristic targets those who value convenience.";
-                    chosenCharacteristic = "Convenient";
+                    GetMatchingCharacteristicSO("Convenient");
                     break;
                 case State.EcoFriendly:
-                    infoPopUpText.text = "This characteristic targets those who value eco-friendly products.";
-                    chosenCharacteristic = "EcoFriendly";
+                    GetMatchingCharacteristicSO("EcoFriendly");
                     break;
                 case State.UniqueDesign:
-                    infoPopUpText.text = "This characteristic targets those who value unique design.";
-                    chosenCharacteristic = "UniqueDesign";
+                    GetMatchingCharacteristicSO("UniqueDesign");
                     break;
                 case State.Familiarity:
-                    infoPopUpText.text = "This characteristic targets those who value familiarity.";
-                    chosenCharacteristic = "Familiarity";
+                    GetMatchingCharacteristicSO("Familiarity");
                     break;
             }
     }
 
 
-    private void ConfirmButtonChoice()
+    private void ConfirmCharButtonChoice()
+    {
+        HideCharacteristicButtonCanvas();
+        HideInfoPopUp();
+
+        ShowCharacteristicQuestionCanvas();
+        GetButtonQuestionCharacteristicSO(chosenCharacteristicSO);
+    }
+
+
+    private void ConfirmQuestionButtonChoice()
     {
         HideCharacteristicCanvas();
 
         state = State.Default;
-        Debug.Log(chosenCharacteristic);
+        Debug.Log(chosenCharacteristicSO);
 
         OnDetermineWinState?.Invoke();
     }
 
+
+    private void GetMatchingCharacteristicSO(string selectedCharacteristic)
+    {
+        for (int i = 0; i < characteristicListSO.characteristicSOList.Count; i++)
+        {
+            if (characteristicListSO.characteristicSOList[i].characteristicName == selectedCharacteristic)
+            {
+                chosenCharacteristicSO = characteristicListSO.characteristicSOList[i];
+                infoPopUpText.text = characteristicListSO.characteristicSOList[i].characteristicDescription;
+            }
+        }
+    }
+
+
+    private void GetButtonQuestionCharacteristicSO(DM_CharacteristicSO chosenCharacteristicSO)
+    {
+        question1ButtonText.text = chosenCharacteristicSO.characteristicQuestion1;
+        question2ButtonText.text = chosenCharacteristicSO.characteristicQuestion2;
+        question3ButtonText.text = chosenCharacteristicSO.characteristicQuestion3;
+    }
+
+
+
+    //showing and hiding different canvases 
     
     private void ShowInfoPopUp()
     {
@@ -141,6 +180,28 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
     private void HideCharacteristicCanvas()
     {
         gameObject.SetActive(false);
+    }
+
+
+    private void ShowCharacteristicButtonCanvas()
+    {
+        characteristicButtonCanvas.gameObject.SetActive(true);
+    }
+
+    private void HideCharacteristicButtonCanvas()
+    {
+        characteristicButtonCanvas.gameObject.SetActive(false);
+    }
+
+
+    private void ShowCharacteristicQuestionCanvas()
+    {
+        characteristicQuestionCanvas.gameObject.SetActive(true);
+    }
+
+    private void HideCharacteristicQuestionCanvas()
+    {
+        characteristicQuestionCanvas.gameObject.SetActive(false);
     }
 
 }

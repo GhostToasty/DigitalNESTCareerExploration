@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DM_CharacteristicSO
   sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   characteristicName: UniqueDesign
+  characteristicDescription: New and innovative, perfect for those looking to experience
+    something new and outside the box.
+  characteristicQuestion1: ud1
+  characteristicQuestion2: ud2
+  characteristicQuestion3: ud3

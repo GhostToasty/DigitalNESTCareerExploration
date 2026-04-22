@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DM_ContentSO
   contentType: Paid
   contentName: VideoAd
+  contentDescription: Show off your product before a Youtube video or as a commecial.
+  contentQuestion1: va1
+  contentQuestion2: va2
+  contentQuestion3: va3

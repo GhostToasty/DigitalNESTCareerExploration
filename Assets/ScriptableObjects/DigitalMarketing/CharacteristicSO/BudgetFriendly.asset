@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DM_CharacteristicSO
   sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   characteristicName: BudgetFriendly
+  characteristicDescription: On the cheaper side of the market. Great for people
+    looking for a great deal or on a tight budget.
+  characteristicQuestion1: bf1
+  characteristicQuestion2: bf2
+  characteristicQuestion3: bf3

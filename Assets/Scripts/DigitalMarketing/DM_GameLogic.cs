@@ -5,18 +5,18 @@ using UnityEngine.UI;
 
 public class DM_GameLogic : MonoBehaviour
 {
-    [SerializeField] DM_ContentTypeUI contentTypeUI;
-    [SerializeField] DM_CharacteristicTypeUI characteristicTypeUI;
-    [SerializeField] DM_CharacteristicListSO characteristicListSO;
-    [SerializeField] DM_ContentListSO contentListSO;
+    [SerializeField] private DM_ContentTypeUI contentTypeUI;
+    [SerializeField] private DM_CharacteristicTypeUI characteristicTypeUI;
+    [SerializeField] private DM_CharacteristicListSO characteristicListSO;
+    [SerializeField] private DM_ContentListSO contentListSO;
 
-    [SerializeField] public static List<DM_ContentSO> audienceContentList = new List<DM_ContentSO>();
-    [SerializeField] public static List<DM_CharacteristicSO> audienceCharacteristicList = new List<DM_CharacteristicSO>();
+    public static List<DM_ContentSO> audienceContentList = new List<DM_ContentSO>();
+    public static List<DM_CharacteristicSO> audienceCharacteristicList = new List<DM_CharacteristicSO>();
 
-    private string getChosenContent;
-    private string getChosenCharacteristic;
-    private string winningContent;
-    private string winningCharacteristic;
+    private DM_ContentSO getChosenContent;
+    private DM_CharacteristicSO getChosenCharacteristicSO;
+    private DM_ContentSO winningContent;
+    private DM_CharacteristicSO winningCharacteristic;
 
 
     private void Awake()
@@ -70,10 +70,10 @@ public class DM_GameLogic : MonoBehaviour
     private bool DetermineContentWin()
     {
         //checks if the selected content matches the audience's preference 
-        getChosenContent = contentTypeUI.chosenContent;
+        getChosenContent = contentTypeUI.chosenContentSO;
         for (int i = 0; i < audienceContentList.Count; i++)
         {
-            if (audienceContentList[i].contentName == getChosenContent)
+            if (audienceContentList[i].contentName == getChosenContent.contentName)
             {
                 return true;
             }
@@ -85,10 +85,10 @@ public class DM_GameLogic : MonoBehaviour
     private bool DetermineCharacteristicWin()
     {
         //checks if the selected characteristic matches with the audience's preference 
-        getChosenCharacteristic = characteristicTypeUI.chosenCharacteristic;
+        getChosenCharacteristicSO = characteristicTypeUI.chosenCharacteristicSO;
         for (int i = 0; i < audienceCharacteristicList.Count; i++)
         {
-            if (audienceCharacteristicList[i].characteristicName == getChosenCharacteristic)
+            if (audienceCharacteristicList[i].characteristicName == getChosenCharacteristicSO.characteristicName)
             {
                 return true;
             }
