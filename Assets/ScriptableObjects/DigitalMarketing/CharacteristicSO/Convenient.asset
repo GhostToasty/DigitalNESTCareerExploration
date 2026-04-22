@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DM_CharacteristicSO
   sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   characteristicName: Convenient
+  characteristicDescription: Quick to set up and easy to use. Perfect for people
+    who are busy and always on the go.
+  characteristicQuestion1: c1
+  characteristicQuestion2: c2
+  characteristicQuestion3: c3

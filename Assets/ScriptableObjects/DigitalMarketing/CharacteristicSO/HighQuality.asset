@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DM_CharacteristicSO
   sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   characteristicName: HighQuality
+  characteristicDescription: Only the best for our customers. It may be more costly,
+    but it's worth the premium value.
+  characteristicQuestion1: hq1
+  characteristicQuestion2: hq2
+  characteristicQuestion3: hq3

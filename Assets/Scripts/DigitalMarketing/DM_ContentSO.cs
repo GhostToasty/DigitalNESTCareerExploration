@@ -9,4 +9,9 @@ public class DM_ContentSO : ScriptableObject
 
     public string contentType;
     public string contentName;
+    public string contentDescription;
+    public string contentQuestion1;
+    public string contentQuestion2;
+    public string contentQuestion3;
+
 }

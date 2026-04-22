@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DM_ContentSO
   contentType: Organic
   contentName: Email
+  contentDescription: A perfect way to keep your already existing customers in the
+    loop.
+  contentQuestion1: e1
+  contentQuestion2: e2
+  contentQuestion3: e3

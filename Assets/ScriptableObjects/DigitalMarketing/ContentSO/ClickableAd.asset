@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DM_ContentSO
   contentType: Paid
   contentName: ClickableAd
+  contentDescription: Ads that appear on websites that you can click.
+  contentQuestion1: ca1
+  contentQuestion2: ca2
+  contentQuestion3: ca3

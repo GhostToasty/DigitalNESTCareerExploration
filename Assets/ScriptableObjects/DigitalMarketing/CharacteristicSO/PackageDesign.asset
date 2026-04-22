@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DM_CharacteristicSO
   sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   characteristicName: PackageDesign
+  characteristicDescription: Judge a book by it's cover. Special packaging helps
+    a product stand out from the competition.
+  characteristicQuestion1: pd1
+  characteristicQuestion2: pd2
+  characteristicQuestion3: pd3
