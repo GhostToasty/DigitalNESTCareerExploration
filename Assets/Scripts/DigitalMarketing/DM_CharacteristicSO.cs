@@ -11,4 +11,5 @@ public class DM_CharacteristicSO : ScriptableObject
     public string characteristicQuestion1;
     public string characteristicQuestion2;
     public string characteristicQuestion3;
+    public string characteristicPreference;
 }

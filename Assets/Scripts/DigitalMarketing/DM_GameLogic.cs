@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class DM_GameLogic : MonoBehaviour
 {
+    public delegate void SetContentPreferenceFunc(string audienceContentPreference);
+    public static event SetContentPreferenceFunc OnSetContentPreference;
+    
     [SerializeField] private DM_ContentTypeUI contentTypeUI;
     [SerializeField] private DM_CharacteristicTypeUI characteristicTypeUI;
     [SerializeField] private DM_CharacteristicListSO characteristicListSO;
@@ -37,7 +40,9 @@ public class DM_GameLogic : MonoBehaviour
         //randomizes which content the audience prefers        
         DM_ContentSO audienceContent = contentListSO.contentSOList[Random.Range(0, contentListSO.contentSOList.Count)];
         audienceContentList.Add(audienceContent);
+        OnSetContentPreference?.Invoke(audienceContentList[0].contentPreference);
         Debug.Log(audienceContentList[0].contentName);
+        Debug.Log(audienceContentList[0].contentPreference);
         
         //randomizes which three characteristics the audience prefers 
         for (int i = 0; i < 3;)

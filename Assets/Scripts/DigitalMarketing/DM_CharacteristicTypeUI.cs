@@ -10,6 +10,8 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
     
     public delegate void DetermineWinStateFunc();
     public static event DetermineWinStateFunc OnDetermineWinState;
+
+    public DM_CharacteristicSO chosenCharacteristicSO;
     
     private enum State
     {
@@ -40,13 +42,15 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
     [SerializeField] private Canvas popUpCanvas;
     [SerializeField] private Canvas characteristicButtonCanvas;
     [SerializeField] private Canvas characteristicQuestionCanvas;
+    [SerializeField] private Button question1Button;
+    [SerializeField] private Button question2Button;
+    [SerializeField] private Button question3Button;
     [SerializeField] private TextMeshProUGUI question1ButtonText;
     [SerializeField] private TextMeshProUGUI question2ButtonText;
     [SerializeField] private TextMeshProUGUI question3ButtonText;
     
 
     private State state;
-    public DM_CharacteristicSO chosenCharacteristicSO;
 
 
 
@@ -63,6 +67,10 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
         uniqueDesignButton.onClick.AddListener(() => { state = State.UniqueDesign; ShowInfoPopUp();});
         familiarityButton.onClick.AddListener(() => { state = State.Familiarity; ShowInfoPopUp();});
 
+        question1Button.onClick.AddListener(() => { ShowConfirmQuestionButton();});
+        question2Button.onClick.AddListener(() => { ShowConfirmQuestionButton();});
+        question3Button.onClick.AddListener(() => { ShowConfirmQuestionButton();});
+
         confirmCharButton.onClick.AddListener(() => { state = State.Default; ConfirmCharButtonChoice();});
         confirmQuestionButton.onClick.AddListener(() => { state = State.Default; ConfirmQuestionButtonChoice();});
 
@@ -72,6 +80,7 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
         HideInfoPopUp();
         HideCharacteristicQuestionCanvas();
         HideCharacteristicButtonCanvas();
+        HideConfirmQuestionButton();
     }
 
 
@@ -202,6 +211,17 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
     private void HideCharacteristicQuestionCanvas()
     {
         characteristicQuestionCanvas.gameObject.SetActive(false);
+    }
+
+
+     private void ShowConfirmQuestionButton()
+    {
+        confirmQuestionButton.gameObject.SetActive(true);
+    }
+
+    private void HideConfirmQuestionButton()
+    {
+        confirmQuestionButton.gameObject.SetActive(false);
     }
 
 }

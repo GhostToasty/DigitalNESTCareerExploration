@@ -10,6 +10,8 @@ public class DM_ContentTypeUI : MonoBehaviour
     [SerializeField] DM_ContentListSO contentListSO;
     public delegate void SelectedContentFunc();
     public static event SelectedContentFunc OnSelectedContent;
+
+    public DM_ContentSO chosenContentSO;
     
     private enum State
     {
@@ -18,10 +20,10 @@ public class DM_ContentTypeUI : MonoBehaviour
         Graphic,
         Video,
         Text,
-        ClickableAd,
+        // ClickableAd,
         InfluencerOutreach,
         SEO,
-        VideoAd
+        // VideoAd
     }
 
     
@@ -41,39 +43,46 @@ public class DM_ContentTypeUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI infoPopUpText;
     [SerializeField] private Canvas organicButtonsCanvas;
     [SerializeField] private Canvas paidButtonsCanvas;
-    [SerializeField] private Canvas popUpCanvas;
+    [SerializeField] private Canvas contentButtonsCanvas;
+    [SerializeField] private Canvas contentPopUpCanvas;
     [SerializeField] private Canvas contentQuestionCanvas;
+    [SerializeField] private Button question1Button;
+    [SerializeField] private Button question2Button;
+    [SerializeField] private Button question3Button;
     [SerializeField] private TextMeshProUGUI question1ButtonText;
     [SerializeField] private TextMeshProUGUI question2ButtonText;
     [SerializeField] private TextMeshProUGUI question3ButtonText;
       
 
     private State state;
-    public DM_ContentSO chosenContentSO;
 
 
     private void Awake()
     {
-        organicContentButton.onClick.AddListener(() =>
-        {
-            HideOrganicPaidButtons();
-            ShowOrganicOptions();
-        });
+        // organicContentButton.onClick.AddListener(() =>
+        // {
+        //     HideOrganicPaidButtons();
+        //     ShowOrganicOptions();
+        // });
 
-        paidContentButton.onClick.AddListener(() =>
-        {
-            HideOrganicPaidButtons();
-            ShowPaidOptions();
-        });
+        // paidContentButton.onClick.AddListener(() =>
+        // {
+        //     HideOrganicPaidButtons();
+        //     ShowPaidOptions();
+        // });
 
         emailButton.onClick.AddListener(() => { state = State.Email; ShowInfoPopUp();});
         graphicButton.onClick.AddListener(() => { state = State.Graphic; ShowInfoPopUp();});
         videoButton.onClick.AddListener(() => { state = State.Video; ShowInfoPopUp();});
         textButton.onClick.AddListener(() => { state = State.Text; ShowInfoPopUp();});
-        clickableAdButton.onClick.AddListener(() => { state = State.ClickableAd; ShowInfoPopUp();});
+        // clickableAdButton.onClick.AddListener(() => { state = State.ClickableAd; ShowInfoPopUp();});
         influencerOutreachButton.onClick.AddListener(() => { state = State.InfluencerOutreach; ShowInfoPopUp();});
         seoButton.onClick.AddListener(() => { state = State.SEO; ShowInfoPopUp();});
-        videoAdButton.onClick.AddListener(() => { state = State.VideoAd; ShowInfoPopUp();});
+        // videoAdButton.onClick.AddListener(() => { state = State.VideoAd; ShowInfoPopUp();});
+
+        question1Button.onClick.AddListener(() => { ShowConfirmQuestionButton();});
+        question2Button.onClick.AddListener(() => { ShowConfirmQuestionButton();});
+        question3Button.onClick.AddListener(() => { ShowConfirmQuestionButton();});
 
         confirmContentButton.onClick.AddListener(() => { state = State.Default; ConfirmContentButtonChoice();});
         confirmQuestionButton.onClick.AddListener(() => { state = State.Default; ConfirmQuestionButtonChoice();});
@@ -81,15 +90,18 @@ public class DM_ContentTypeUI : MonoBehaviour
         state = State.Default;
 
         ShowContentCanvas();
-        HideOrganicOptions();
-        HidePaidOptions();
+        // HideOrganicOptions();
+        // HidePaidOptions();
         HideInfoPopUp();
         HideContentQuestionCanvas();
+        HideContentButtonsCanvas();
+        HideConfirmQuestionButton();
     }
 
     private void Start()
     {
-        ShowOrganicPaidButtons();
+        // ShowOrganicPaidButtons();
+        ShowContentButtonsCanvas();
     }
 
 
@@ -114,10 +126,10 @@ public class DM_ContentTypeUI : MonoBehaviour
                     infoPopUpText.text = "This is a text";
                     GetMatchingContentSO("Text");
                     break;
-                case State.ClickableAd:
-                    infoPopUpText.text = "This is a clickable ad";
-                    GetMatchingContentSO("ClickableAd");
-                    break;
+                // case State.ClickableAd:
+                //     infoPopUpText.text = "This is a clickable ad";
+                //     GetMatchingContentSO("ClickableAd");
+                //     break;
                 case State.InfluencerOutreach:
                     infoPopUpText.text = "This is influencer outreach";
                     GetMatchingContentSO("InfluencerOutreach");
@@ -126,19 +138,20 @@ public class DM_ContentTypeUI : MonoBehaviour
                     infoPopUpText.text = "This is SEO";
                     GetMatchingContentSO("SEO");
                     break;
-                case State.VideoAd:
-                    infoPopUpText.text = "This is a video ad";
-                    GetMatchingContentSO("VideoAd");
-                    break;
+                // case State.VideoAd:
+                //     infoPopUpText.text = "This is a video ad";
+                //     GetMatchingContentSO("VideoAd");
+                //     break;
             }
     }
 
 
      private void ConfirmContentButtonChoice()
     {
-        HidePaidOptions();
-        HideOrganicOptions();
+        // HidePaidOptions();
+        // HideOrganicOptions();
         HideInfoPopUp();
+        HideContentButtonsCanvas();
 
         ShowContentQuestionCanvas();
         GetButtonQuestionContentSO(chosenContentSO);
@@ -178,49 +191,49 @@ public class DM_ContentTypeUI : MonoBehaviour
     
     
     
-    private void ShowOrganicPaidButtons()
-    {
-        organicContentButton.gameObject.SetActive(true);
-        paidContentButton.gameObject.SetActive(true);
-    }
+    // private void ShowOrganicPaidButtons()
+    // {
+    //     organicContentButton.gameObject.SetActive(true);
+    //     paidContentButton.gameObject.SetActive(true);
+    // }
 
-    private void HideOrganicPaidButtons()
-    {
-        organicContentButton.gameObject.SetActive(false);
-        paidContentButton.gameObject.SetActive(false);
-    }
+    // private void HideOrganicPaidButtons()
+    // {
+    //     organicContentButton.gameObject.SetActive(false);
+    //     paidContentButton.gameObject.SetActive(false);
+    // }
     
     
-    private void ShowOrganicOptions()
-    {
-        organicButtonsCanvas.gameObject.SetActive(true);
-    }
+    // private void ShowOrganicOptions()
+    // {
+    //     organicButtonsCanvas.gameObject.SetActive(true);
+    // }
 
-    private void HideOrganicOptions()
-    {
-        organicButtonsCanvas.gameObject.SetActive(false);
-    }
+    // private void HideOrganicOptions()
+    // {
+    //     organicButtonsCanvas.gameObject.SetActive(false);
+    // }
 
 
-    private void ShowPaidOptions()
-    {
-        paidButtonsCanvas.gameObject.SetActive(true);
-    }
+    // private void ShowPaidOptions()
+    // {
+    //     paidButtonsCanvas.gameObject.SetActive(true);
+    // }
 
-    private void HidePaidOptions()
-    {
-        paidButtonsCanvas.gameObject.SetActive(false);
-    }
+    // private void HidePaidOptions()
+    // {
+    //     paidButtonsCanvas.gameObject.SetActive(false);
+    // }
 
 
     private void ShowInfoPopUp()
     {
-        popUpCanvas.gameObject.SetActive(true);
+        contentPopUpCanvas.gameObject.SetActive(true);
     }
 
     private void HideInfoPopUp()
     {
-        popUpCanvas.gameObject.SetActive(false);
+        contentPopUpCanvas.gameObject.SetActive(false);
     }
 
 
@@ -243,6 +256,28 @@ public class DM_ContentTypeUI : MonoBehaviour
     private void HideContentQuestionCanvas()
     {
         contentQuestionCanvas.gameObject.SetActive(false);
+    }
+
+
+    private void ShowContentButtonsCanvas()
+    {
+        contentButtonsCanvas.gameObject.SetActive(true);
+    }
+
+    private void HideContentButtonsCanvas()
+    {
+        contentButtonsCanvas.gameObject.SetActive(false);
+    }
+
+
+    private void ShowConfirmQuestionButton()
+    {
+        confirmQuestionButton.gameObject.SetActive(true);
+    }
+
+    private void HideConfirmQuestionButton()
+    {
+        confirmQuestionButton.gameObject.SetActive(false);
     }
 
 }

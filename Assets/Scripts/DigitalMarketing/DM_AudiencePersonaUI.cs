@@ -10,8 +10,15 @@ public class DM_AudiencePersonaUI : MonoBehaviour
     // [SerializeField] private TextMeshProUGUI characteristicNameText;
     [SerializeField] private Transform iconContainer;
     [SerializeField] private Transform iconTemplate;
+    [SerializeField] private TextMeshProUGUI contentPreferenceText;
+    
 
+    private void Awake()
+    {
+        DM_GameLogic.OnSetContentPreference += OnSetContentPreference;
+    }
 
+    
     private void Start()
     {
         SetCharacteristicVisual();
@@ -41,5 +48,11 @@ public class DM_AudiencePersonaUI : MonoBehaviour
             Debug.Log("set visual");
             Debug.Log(characteristicSO.characteristicName);
         }
+    }
+
+
+    public void OnSetContentPreference(string audienceContentPreference)
+    {
+        contentPreferenceText.text = audienceContentPreference;
     }
 }

@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: ContentList
   m_EditorClassIdentifier: Assembly-CSharp::DM_ContentListSO
   contentSOList:
-  - {fileID: 11400000, guid: 248c988532da12d48b7086dc23c88adf, type: 2}
   - {fileID: 11400000, guid: c56d66f543a0c6c4fb2c5fae42c139bf, type: 2}
   - {fileID: 11400000, guid: 2dd1c7c808e994c4dbf8ee5ef47ca8cb, type: 2}
   - {fileID: 11400000, guid: 11d1412be3750d143bd9a06bbe466c3a, type: 2}
   - {fileID: 11400000, guid: e5f0f86611393a544b4e3c5b486175cd, type: 2}
   - {fileID: 11400000, guid: 28d5c5c2670fdce45a4237dfc0611fb3, type: 2}
   - {fileID: 11400000, guid: 67af1192a228eb34586e7e402f1c3e0b, type: 2}
-  - {fileID: 11400000, guid: ba53c7bfb534f3e4eadc5f799d80ac84, type: 2}

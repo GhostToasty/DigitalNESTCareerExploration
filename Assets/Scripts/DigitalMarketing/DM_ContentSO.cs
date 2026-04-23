@@ -13,5 +13,6 @@ public class DM_ContentSO : ScriptableObject
     public string contentQuestion1;
     public string contentQuestion2;
     public string contentQuestion3;
+    public string contentPreference;
 
 }
