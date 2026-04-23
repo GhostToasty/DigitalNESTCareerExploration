@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,11 +8,26 @@ public class DM_GameLogic : MonoBehaviour
 {
     public delegate void SetContentPreferenceFunc(string audienceContentPreference);
     public static event SetContentPreferenceFunc OnSetContentPreference;
+    public delegate void SetCharacteristicPreferenceFunc(List<DM_CharacteristicSO> audienceCharacteristicPreferenceList);
+    public static event SetCharacteristicPreferenceFunc OnSetCharacteristicPreference;
+    // public delegate void ScoreBarUpdateFunc();
+    // public static event ScoreBarUpdateFunc OnScoreBarUpdate;
+
+    public enum State
+    {
+        ContentChoice,
+        ContentQuestion,
+        CharacteristicChoice,
+        CharacteristicQuestion
+    }
+    private State state;
+
     
     [SerializeField] private DM_ContentTypeUI contentTypeUI;
     [SerializeField] private DM_CharacteristicTypeUI characteristicTypeUI;
     [SerializeField] private DM_CharacteristicListSO characteristicListSO;
     [SerializeField] private DM_ContentListSO contentListSO;
+    [SerializeField] private Image scoreBar;
 
     public static List<DM_ContentSO> audienceContentList = new List<DM_ContentSO>();
     public static List<DM_CharacteristicSO> audienceCharacteristicList = new List<DM_CharacteristicSO>();
@@ -25,6 +41,10 @@ public class DM_GameLogic : MonoBehaviour
     private void Awake()
     {
         DM_CharacteristicTypeUI.OnDetermineWinState += OnDetermineWinState;
+        DM_CharacteristicTypeUI.OnScoreBarUpdate += OnScoreBarUpdate;
+        DM_ContentTypeUI.OnScoreBarUpdate += OnScoreBarUpdate;
+
+        scoreBar.fillAmount = 0;
     }
 
 
@@ -52,10 +72,13 @@ public class DM_GameLogic : MonoBehaviour
             if (!CheckAudienceCharacteristicDuplicates(audienceCharacteristic))
             {
                 audienceCharacteristicList.Add(audienceCharacteristic);
+                // OnSetCharacteristicPreference?.Invoke(audienceCharacteristicList[i].characteristicPreference);
                 Debug.Log(audienceCharacteristicList[i].characteristicName);
+                // Debug.Log(audienceCharacteristicList[i].characteristicPreference);
                 i++;
             }
         }
+        OnSetCharacteristicPreference?.Invoke(audienceCharacteristicList);
 
     }
 
@@ -72,6 +95,38 @@ public class DM_GameLogic : MonoBehaviour
     }
     
    
+    private bool DetermineContentQuestionWin()
+    {
+        Debug.Log("chosen " + contentTypeUI.chosenContentAnswer);
+        Debug.Log("correct " + contentTypeUI.correctContentAnswer);
+        if (DetermineContentWin())
+        {
+            if (contentTypeUI.chosenContentAnswer == contentTypeUI.correctContentAnswer)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
+    
+    private bool DetermineCharacteristicQuestionWin()
+    {
+        Debug.Log("chosen " + characteristicTypeUI.chosenCharacteristicAnswer);
+        Debug.Log("correct " + characteristicTypeUI.correctCharacteristicAnswer);
+        if (DetermineCharacteristicWin())
+        {
+            if (characteristicTypeUI.chosenCharacteristicAnswer == characteristicTypeUI.correctCharacteristicAnswer)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+    
+    
     private bool DetermineContentWin()
     {
         //checks if the selected content matches the audience's preference 
@@ -122,4 +177,25 @@ public class DM_GameLogic : MonoBehaviour
         }
 
     }
+
+
+    private void OnScoreBarUpdate(string checkItem)
+    {
+        if (checkItem == "ContentChoice")
+            if (DetermineContentWin())
+                scoreBar.fillAmount += 0.05f;
+
+        if(checkItem == "ContentQAnswer")
+             if (DetermineContentQuestionWin())
+                scoreBar.fillAmount += 0.05f;
+
+        if (checkItem == "CharChoice")
+            if (DetermineCharacteristicWin())
+                scoreBar.fillAmount += 0.05f;
+
+        if(checkItem == "CharQAnswer")
+             if (DetermineCharacteristicQuestionWin())
+                scoreBar.fillAmount += 0.05f;
+    }
+        
 }

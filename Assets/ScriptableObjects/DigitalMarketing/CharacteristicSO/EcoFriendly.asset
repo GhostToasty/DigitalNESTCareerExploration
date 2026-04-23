@@ -16,6 +16,7 @@ MonoBehaviour:
   characteristicName: EcoFriendly
   characteristicDescription: Reduce, reuse, recycle! A product made with low environmental
     impact for a happier planet.
-  characteristicQuestion1: ef1
-  characteristicQuestion2: ef2
-  characteristicQuestion3: ef3
+  characteristicQuestion1: Reduce carbon emissions, but keep it a secret.
+  characteristicQuestion2: Give your products away to animals.
+  characteristicQuestion3: Use recycled material and say it on the packaging.
+  characteristicPreference: I want to help the planet.

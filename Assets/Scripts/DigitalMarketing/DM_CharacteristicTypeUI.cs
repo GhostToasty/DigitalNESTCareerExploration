@@ -10,8 +10,12 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
     
     public delegate void DetermineWinStateFunc();
     public static event DetermineWinStateFunc OnDetermineWinState;
+    public delegate void ScoreBarUpdateFunc(string checkItem);
+    public static event ScoreBarUpdateFunc OnScoreBarUpdate;
 
     public DM_CharacteristicSO chosenCharacteristicSO;
+    public Button correctCharacteristicAnswer;
+    public Button chosenCharacteristicAnswer;
     
     private enum State
     {
@@ -25,6 +29,7 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
         UniqueDesign,
         Familiarity
     }
+    private State state;
 
 
     [SerializeField] private Button highQualityButton;
@@ -48,15 +53,13 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI question1ButtonText;
     [SerializeField] private TextMeshProUGUI question2ButtonText;
     [SerializeField] private TextMeshProUGUI question3ButtonText;
-    
-
-    private State state;
 
 
 
     private void Awake()
     {
         DM_ContentTypeUI.OnSelectedContent += OnSelectedContent;
+        // DM_GameLogic.OnScoreBarUpdate += OnScoreBarUpdate;
 
         highQualityButton.onClick.AddListener(() => { state = State.HighQuality; ShowInfoPopUp();});
         budgetFriendlyButton.onClick.AddListener(() => { state = State.BudgetFriendly; ShowInfoPopUp();});
@@ -67,9 +70,9 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
         uniqueDesignButton.onClick.AddListener(() => { state = State.UniqueDesign; ShowInfoPopUp();});
         familiarityButton.onClick.AddListener(() => { state = State.Familiarity; ShowInfoPopUp();});
 
-        question1Button.onClick.AddListener(() => { ShowConfirmQuestionButton();});
-        question2Button.onClick.AddListener(() => { ShowConfirmQuestionButton();});
-        question3Button.onClick.AddListener(() => { ShowConfirmQuestionButton();});
+        question1Button.onClick.AddListener(() => { GetButtonChoosen(question1Button); ShowConfirmQuestionButton();});
+        question2Button.onClick.AddListener(() => { GetButtonChoosen(question2Button); ShowConfirmQuestionButton();});
+        question3Button.onClick.AddListener(() => { GetButtonChoosen(question3Button); ShowConfirmQuestionButton();});
 
         confirmCharButton.onClick.AddListener(() => { state = State.Default; ConfirmCharButtonChoice();});
         confirmQuestionButton.onClick.AddListener(() => { state = State.Default; ConfirmQuestionButtonChoice();});
@@ -96,36 +99,46 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
         if (state != State.Default)
             switch (state)
             {
-                case State.HighQuality:
-                    GetMatchingCharacteristicSO("HighQuality");
-                    break;
                 case State.BudgetFriendly:
                     GetMatchingCharacteristicSO("BudgetFriendly");
-                    break;
-                case State.PackageDesign:
-                    GetMatchingCharacteristicSO("PackageDesign");
-                    break;
-                case State.EthicallyMade:
-                    GetMatchingCharacteristicSO("EthicallyMade");
+                    correctCharacteristicAnswer = question1Button;
                     break;
                 case State.Convenient:
                     GetMatchingCharacteristicSO("Convenient");
+                    correctCharacteristicAnswer = question2Button;
                     break;
                 case State.EcoFriendly:
                     GetMatchingCharacteristicSO("EcoFriendly");
+                    correctCharacteristicAnswer = question3Button;
                     break;
-                case State.UniqueDesign:
-                    GetMatchingCharacteristicSO("UniqueDesign");
+                case State.EthicallyMade:
+                    GetMatchingCharacteristicSO("EthicallyMade");
+                    correctCharacteristicAnswer = question1Button;
                     break;
                 case State.Familiarity:
                     GetMatchingCharacteristicSO("Familiarity");
+                    correctCharacteristicAnswer = question2Button;
                     break;
+                case State.HighQuality:
+                    GetMatchingCharacteristicSO("HighQuality");
+                    correctCharacteristicAnswer = question3Button;
+                    break;
+                case State.PackageDesign:
+                    GetMatchingCharacteristicSO("PackageDesign");
+                    correctCharacteristicAnswer = question1Button;
+                    break;
+                case State.UniqueDesign:
+                    GetMatchingCharacteristicSO("UniqueDesign");
+                    correctCharacteristicAnswer = question2Button;
+                    break;   
             }
     }
 
 
     private void ConfirmCharButtonChoice()
     {
+        OnScoreBarUpdate?.Invoke("CharChoice");
+        
         HideCharacteristicButtonCanvas();
         HideInfoPopUp();
 
@@ -136,6 +149,7 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
 
     private void ConfirmQuestionButtonChoice()
     {
+        OnScoreBarUpdate?.Invoke("CharQAnswer");
         HideCharacteristicCanvas();
 
         state = State.Default;
@@ -163,6 +177,11 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
         question1ButtonText.text = chosenCharacteristicSO.characteristicQuestion1;
         question2ButtonText.text = chosenCharacteristicSO.characteristicQuestion2;
         question3ButtonText.text = chosenCharacteristicSO.characteristicQuestion3;
+    }
+
+    private void GetButtonChoosen(Button buttonAnswer)
+    {
+        chosenCharacteristicAnswer = buttonAnswer;
     }
 
 

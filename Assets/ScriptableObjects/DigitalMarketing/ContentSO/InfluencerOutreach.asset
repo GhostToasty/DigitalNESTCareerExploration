@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DM_ContentSO
   contentType: Paid
   contentName: InfluencerOutreach
-  contentDescription: Partner with an ambassador and get your product in front of
-    a new established audience.
-  contentQuestion1: io1
-  contentQuestion2: io2
-  contentQuestion3: io3
+  contentDescription: Partner with an ambassador and have them promote your product.
+  contentQuestion1: I get to talk with famous people.
+  contentQuestion2: I can tap into a new and already-curated audience.
+  contentQuestion3: I have a chance to be the talk of the internet.
   contentPreference: I trust online creators that I follow to have good recommendations!

@@ -19,3 +19,4 @@ MonoBehaviour:
   characteristicQuestion1: c1
   characteristicQuestion2: c2
   characteristicQuestion3: c3
+  characteristicPreference: I want something simple.

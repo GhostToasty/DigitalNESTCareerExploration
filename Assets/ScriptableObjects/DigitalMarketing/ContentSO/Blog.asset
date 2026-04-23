@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e68a59e38d6204a4bb7f36de475d3dd9, type: 3}
-  m_Name: Text
+  m_Name: Blog
   m_EditorClassIdentifier: Assembly-CSharp::DM_ContentSO
   contentType: Organic
-  contentName: Text
-  contentDescription: Share a tweet or blog post to get people excited about your
+  contentName: Blog
+  contentDescription: Share an article or blog post to get people excited about your
     product.
-  contentQuestion1: t1
-  contentQuestion2: t2
-  contentQuestion3: t3
+  contentQuestion1: I get to make myself a published writer.
+  contentQuestion2: I establish my authority in my industry field.
+  contentQuestion3: I can write about whatever topics I like.
   contentPreference: I like doing research and read articles before I buy!

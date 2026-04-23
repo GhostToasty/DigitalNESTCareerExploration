@@ -16,7 +16,7 @@ MonoBehaviour:
   contentName: Email
   contentDescription: A perfect way to keep your already existing customers in the
     loop.
-  contentQuestion1: e1
-  contentQuestion2: e2
-  contentQuestion3: e3
+  contentQuestion1: I can promote my product whenever I like.
+  contentQuestion2: I get to spam people's inbox so they can't ignore me.
+  contentQuestion3: I have direct connection to those interested in my product
   contentPreference: I love getting personalized messages delivered to me!
