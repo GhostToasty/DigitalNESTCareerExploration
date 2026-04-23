@@ -10,8 +10,12 @@ public class DM_ContentTypeUI : MonoBehaviour
     [SerializeField] DM_ContentListSO contentListSO;
     public delegate void SelectedContentFunc();
     public static event SelectedContentFunc OnSelectedContent;
+    public delegate void ScoreBarUpdateFunc(string checkItem);
+    public static event ScoreBarUpdateFunc OnScoreBarUpdate;
 
     public DM_ContentSO chosenContentSO;
+    public Button correctContentAnswer;
+    public Button chosenContentAnswer;
     
     private enum State
     {
@@ -19,12 +23,13 @@ public class DM_ContentTypeUI : MonoBehaviour
         Email,
         Graphic,
         Video,
-        Text,
+        Blog,
         // ClickableAd,
         InfluencerOutreach,
         SEO,
         // VideoAd
     }
+    private State state;
 
     
     [SerializeField] private Button organicContentButton;
@@ -32,7 +37,7 @@ public class DM_ContentTypeUI : MonoBehaviour
     [SerializeField] private Button emailButton;
     [SerializeField] private Button graphicButton;
     [SerializeField] private Button videoButton;
-    [SerializeField] private Button textButton;
+    [SerializeField] private Button blogButton;
     [SerializeField] private Button clickableAdButton;
     [SerializeField] private Button influencerOutreachButton;
     [SerializeField] private Button seoButton;
@@ -52,9 +57,7 @@ public class DM_ContentTypeUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI question1ButtonText;
     [SerializeField] private TextMeshProUGUI question2ButtonText;
     [SerializeField] private TextMeshProUGUI question3ButtonText;
-      
-
-    private State state;
+    
 
 
     private void Awake()
@@ -74,15 +77,15 @@ public class DM_ContentTypeUI : MonoBehaviour
         emailButton.onClick.AddListener(() => { state = State.Email; ShowInfoPopUp();});
         graphicButton.onClick.AddListener(() => { state = State.Graphic; ShowInfoPopUp();});
         videoButton.onClick.AddListener(() => { state = State.Video; ShowInfoPopUp();});
-        textButton.onClick.AddListener(() => { state = State.Text; ShowInfoPopUp();});
+        blogButton.onClick.AddListener(() => { state = State.Blog; ShowInfoPopUp();});
         // clickableAdButton.onClick.AddListener(() => { state = State.ClickableAd; ShowInfoPopUp();});
         influencerOutreachButton.onClick.AddListener(() => { state = State.InfluencerOutreach; ShowInfoPopUp();});
         seoButton.onClick.AddListener(() => { state = State.SEO; ShowInfoPopUp();});
         // videoAdButton.onClick.AddListener(() => { state = State.VideoAd; ShowInfoPopUp();});
 
-        question1Button.onClick.AddListener(() => { ShowConfirmQuestionButton();});
-        question2Button.onClick.AddListener(() => { ShowConfirmQuestionButton();});
-        question3Button.onClick.AddListener(() => { ShowConfirmQuestionButton();});
+        question1Button.onClick.AddListener(() => { GetButtonChoosen(question1Button); ShowConfirmQuestionButton();});
+        question2Button.onClick.AddListener(() => { GetButtonChoosen(question2Button); ShowConfirmQuestionButton();});
+        question3Button.onClick.AddListener(() => { GetButtonChoosen(question3Button); ShowConfirmQuestionButton();});
 
         confirmContentButton.onClick.AddListener(() => { state = State.Default; ConfirmContentButtonChoice();});
         confirmQuestionButton.onClick.AddListener(() => { state = State.Default; ConfirmQuestionButtonChoice();});
@@ -110,34 +113,40 @@ public class DM_ContentTypeUI : MonoBehaviour
         if (state != State.Default)
             switch (state)
             {
+                case State.Blog:
+                    infoPopUpText.text = "This is a blog";
+                    GetMatchingContentSO("Blog");
+                    correctContentAnswer = question2Button;
+                    break;
                 case State.Email:
                     infoPopUpText.text = "This is an email";
                     GetMatchingContentSO("Email");
+                    correctContentAnswer = question3Button;
                     break;
                 case State.Graphic:
                     infoPopUpText.text = "This is an graphic";
                     GetMatchingContentSO("Graphic");
+                    correctContentAnswer = question1Button;
+                    break;
+                case State.InfluencerOutreach:
+                    infoPopUpText.text = "This is influencer outreach";
+                    GetMatchingContentSO("InfluencerOutreach");
+                    correctContentAnswer = question2Button;
+                    break;
+                case State.SEO:
+                    infoPopUpText.text = "This is SEO";
+                    GetMatchingContentSO("SEO");
+                    correctContentAnswer = question3Button;
                     break;
                 case State.Video:
                     infoPopUpText.text = "This is a video";
                     GetMatchingContentSO("Video");
-                    break;
-                case State.Text:
-                    infoPopUpText.text = "This is a text";
-                    GetMatchingContentSO("Text");
+                    correctContentAnswer = question1Button;
                     break;
                 // case State.ClickableAd:
                 //     infoPopUpText.text = "This is a clickable ad";
                 //     GetMatchingContentSO("ClickableAd");
                 //     break;
-                case State.InfluencerOutreach:
-                    infoPopUpText.text = "This is influencer outreach";
-                    GetMatchingContentSO("InfluencerOutreach");
-                    break;
-                case State.SEO:
-                    infoPopUpText.text = "This is SEO";
-                    GetMatchingContentSO("SEO");
-                    break;
                 // case State.VideoAd:
                 //     infoPopUpText.text = "This is a video ad";
                 //     GetMatchingContentSO("VideoAd");
@@ -148,6 +157,8 @@ public class DM_ContentTypeUI : MonoBehaviour
 
      private void ConfirmContentButtonChoice()
     {
+        OnScoreBarUpdate?.Invoke("ContentChoice");
+        
         // HidePaidOptions();
         // HideOrganicOptions();
         HideInfoPopUp();
@@ -160,6 +171,7 @@ public class DM_ContentTypeUI : MonoBehaviour
 
     private void ConfirmQuestionButtonChoice()
     {
+        OnScoreBarUpdate?.Invoke("ContentQAnswer");
         HideContentCanvas();
 
         state = State.Default;
@@ -182,11 +194,17 @@ public class DM_ContentTypeUI : MonoBehaviour
     }
 
 
-    private void GetButtonQuestionContentSO(DM_ContentSO chosenCotentSO)
+    private void GetButtonQuestionContentSO(DM_ContentSO chosenContentSO)
     {
-        question1ButtonText.text = chosenCotentSO.contentQuestion1;
-        question2ButtonText.text = chosenCotentSO.contentQuestion2;
-        question3ButtonText.text = chosenCotentSO.contentQuestion3;
+        question1ButtonText.text = chosenContentSO.contentQuestion1;
+        question2ButtonText.text = chosenContentSO.contentQuestion2;
+        question3ButtonText.text = chosenContentSO.contentQuestion3;
+    }
+
+
+    private void GetButtonChoosen(Button buttonAnswer)
+    {
+        chosenContentAnswer = buttonAnswer;
     }
     
     

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu()]
@@ -12,4 +13,5 @@ public class DM_CharacteristicSO : ScriptableObject
     public string characteristicQuestion2;
     public string characteristicQuestion3;
     public string characteristicPreference;
+    // public List<string> characteristicCorrectAnswer = new List<string>();
 }

@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DM_ContentSO
   contentType: Paid
   contentName: SEO
-  contentDescription: Reach the top of the internet search results through bids and
-    keywords.
-  contentQuestion1: seo1
-  contentQuestion2: seo2
-  contentQuestion3: seo3
+  contentDescription: Reach the top of the internet search results by adding keywords
+    to your website.
+  contentQuestion1: 'I get to have the best website on the internet. '
+  contentQuestion2: I get to be the only website to come up for certain words.
+  contentQuestion3: I can better match search results and more visible.
   contentPreference: I trust the first few results on an internet search!

@@ -15,6 +15,7 @@ MonoBehaviour:
   sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   characteristicName: Familiarity
   characteristicDescription: A taste of home. Tradition and customer loyalty go hand-in-hand.
-  characteristicQuestion1: f1
-  characteristicQuestion2: f2
-  characteristicQuestion3: f3
+  characteristicQuestion1: Keep product looking the same but decrease the quality
+  characteristicQuestion2: Keep product appearance and quality the same.
+  characteristicQuestion3: Keep product quality but do a major rebrand every year.
+  characteristicPreference: I want something I'm used to.
