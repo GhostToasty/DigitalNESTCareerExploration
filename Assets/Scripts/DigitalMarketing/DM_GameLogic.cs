@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class DM_GameLogic : MonoBehaviour
@@ -10,18 +11,12 @@ public class DM_GameLogic : MonoBehaviour
     public static event SetContentPreferenceFunc OnSetContentPreference;
     public delegate void SetCharacteristicPreferenceFunc(List<DM_CharacteristicSO> audienceCharacteristicPreferenceList);
     public static event SetCharacteristicPreferenceFunc OnSetCharacteristicPreference;
-    // public delegate void ScoreBarUpdateFunc();
-    // public static event ScoreBarUpdateFunc OnScoreBarUpdate;
-
-    public enum State
-    {
-        ContentChoice,
-        ContentQuestion,
-        CharacteristicChoice,
-        CharacteristicQuestion
-    }
-    private State state;
-
+    public delegate void OnRestartContentSequenceFunc();
+    public static event OnRestartContentSequenceFunc OnRestartContentSequence;
+    public delegate void OnRestartCharacterSequenceFunc();
+    public static event OnRestartCharacterSequenceFunc OnRestartCharacterSequence;
+    public delegate void OnStartScreenFunc();
+    public static event OnStartScreenFunc OnStartScreen;
     
     [SerializeField] private DM_ContentTypeUI contentTypeUI;
     [SerializeField] private DM_CharacteristicTypeUI characteristicTypeUI;
@@ -36,6 +31,9 @@ public class DM_GameLogic : MonoBehaviour
     private DM_CharacteristicSO getChosenCharacteristicSO;
     private DM_ContentSO winningContent;
     private DM_CharacteristicSO winningCharacteristic;
+    private bool gameGoing;
+    private int replayNum;
+    private bool firstRun;
 
 
     private void Awake()
@@ -43,20 +41,20 @@ public class DM_GameLogic : MonoBehaviour
         DM_CharacteristicTypeUI.OnDetermineWinState += OnDetermineWinState;
         DM_CharacteristicTypeUI.OnScoreBarUpdate += OnScoreBarUpdate;
         DM_ContentTypeUI.OnScoreBarUpdate += OnScoreBarUpdate;
+        DM_ScreenSwitch.OnRestartGameLoop += OnRestartGameLoop;
 
         scoreBar.fillAmount = 0;
+        replayNum = 0;
+        gameGoing = false;
+        firstRun = true;
     }
 
-
-    private void Start()
-    {
-        RandomAudienceTraits();
-        Debug.Log("start logic");
-    }
-    
 
     private void RandomAudienceTraits()
     {
+        if (!firstRun)
+            ClearRandomAudienceTraits();  
+        
         //randomizes which content the audience prefers        
         DM_ContentSO audienceContent = contentListSO.contentSOList[Random.Range(0, contentListSO.contentSOList.Count)];
         audienceContentList.Add(audienceContent);
@@ -65,21 +63,28 @@ public class DM_GameLogic : MonoBehaviour
         Debug.Log(audienceContentList[0].contentPreference);
         
         //randomizes which three characteristics the audience prefers 
-        for (int i = 0; i < 3;)
+        for (int i = 0; i < 3; i++)
         {
             DM_CharacteristicSO audienceCharacteristic = characteristicListSO.characteristicSOList[Random.Range(0, characteristicListSO.characteristicSOList.Count)];
             
             if (!CheckAudienceCharacteristicDuplicates(audienceCharacteristic))
             {
                 audienceCharacteristicList.Add(audienceCharacteristic);
-                // OnSetCharacteristicPreference?.Invoke(audienceCharacteristicList[i].characteristicPreference);
                 Debug.Log(audienceCharacteristicList[i].characteristicName);
-                // Debug.Log(audienceCharacteristicList[i].characteristicPreference);
-                i++;
             }
         }
         OnSetCharacteristicPreference?.Invoke(audienceCharacteristicList);
+    }
 
+
+    private void ClearRandomAudienceTraits()
+    {
+        audienceContentList.Remove(audienceContentList[0]);
+
+        for (int i = 0; i < 2; i++)
+        {
+            audienceCharacteristicList.Remove(audienceCharacteristicList[i]);
+        }
     }
 
 
@@ -176,26 +181,55 @@ public class DM_GameLogic : MonoBehaviour
             Debug.Log("win none");
         }
 
+        firstRun = false;
+        gameGoing = false;
+        
     }
 
 
     private void OnScoreBarUpdate(string checkItem)
     {
+        float fillNum = 0.1f;
+
         if (checkItem == "ContentChoice")
             if (DetermineContentWin())
-                scoreBar.fillAmount += 0.05f;
+                scoreBar.fillAmount += fillNum;
 
         if(checkItem == "ContentQAnswer")
              if (DetermineContentQuestionWin())
-                scoreBar.fillAmount += 0.05f;
+                scoreBar.fillAmount += fillNum;
 
         if (checkItem == "CharChoice")
             if (DetermineCharacteristicWin())
-                scoreBar.fillAmount += 0.05f;
+                scoreBar.fillAmount += fillNum;
 
         if(checkItem == "CharQAnswer")
              if (DetermineCharacteristicQuestionWin())
-                scoreBar.fillAmount += 0.05f;
+                scoreBar.fillAmount += fillNum;
+    }
+
+
+    private void OnRestartGameLoop()
+    {
+        if (!gameGoing)
+        {
+            if (replayNum < 3)
+            {
+                RandomAudienceTraits();
+                OnRestartContentSequence?.Invoke();
+                OnRestartCharacterSequence?.Invoke();
+
+                replayNum += 1;
+                gameGoing = true;
+            }
+            else
+            {
+                OnStartScreen?.Invoke();
+                scoreBar.fillAmount = 0;
+                replayNum = 0;
+            }
+        }
+        
     }
         
 }

@@ -16,7 +16,9 @@ MonoBehaviour:
   characteristicName: UniqueDesign
   characteristicDescription: New and innovative, perfect for those looking to experience
     something new and outside the box.
-  characteristicQuestion1: ud1
-  characteristicQuestion2: ud2
-  characteristicQuestion3: ud3
+  characteristicQuestion1: Say how special my product is compared to the others.
+  characteristicQuestion2: Show its uses and explain the niche problem that my product
+    solves.
+  characteristicQuestion3: Make your product so unique that no one can figure it
+    out.
   characteristicPreference: I want something that's new.

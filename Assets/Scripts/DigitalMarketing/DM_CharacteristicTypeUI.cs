@@ -5,13 +5,14 @@ using System;
 
 public class DM_CharacteristicTypeUI : MonoBehaviour
 {
-    // [SerializeField] DM_CharacteristicSO characteristicSO;
     [SerializeField] DM_CharacteristicListSO characteristicListSO;
     
     public delegate void DetermineWinStateFunc();
     public static event DetermineWinStateFunc OnDetermineWinState;
     public delegate void ScoreBarUpdateFunc(string checkItem);
     public static event ScoreBarUpdateFunc OnScoreBarUpdate;
+    public delegate void OnReplayScreenFunc();
+    public static event OnReplayScreenFunc OnReplayScreen;
 
     public DM_CharacteristicSO chosenCharacteristicSO;
     public Button correctCharacteristicAnswer;
@@ -59,7 +60,7 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
     private void Awake()
     {
         DM_ContentTypeUI.OnSelectedContent += OnSelectedContent;
-        // DM_GameLogic.OnScoreBarUpdate += OnScoreBarUpdate;
+        DM_GameLogic.OnRestartCharacterSequence += OnRestartCharacterSequence;
 
         highQualityButton.onClick.AddListener(() => { state = State.HighQuality; ShowInfoPopUp();});
         budgetFriendlyButton.onClick.AddListener(() => { state = State.BudgetFriendly; ShowInfoPopUp();});
@@ -79,11 +80,7 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
 
         state = State.Default;
 
-        HideCharacteristicCanvas();
-        HideInfoPopUp();
-        HideCharacteristicQuestionCanvas();
-        HideCharacteristicButtonCanvas();
-        HideConfirmQuestionButton();
+        OnRestartCharacterSequence();
     }
 
 
@@ -155,6 +152,7 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
         state = State.Default;
         Debug.Log(chosenCharacteristicSO);
 
+        OnReplayScreen?.Invoke();
         OnDetermineWinState?.Invoke();
     }
 
@@ -182,6 +180,16 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
     private void GetButtonChoosen(Button buttonAnswer)
     {
         chosenCharacteristicAnswer = buttonAnswer;
+    }
+
+
+    private void OnRestartCharacterSequence()
+    {
+        HideCharacteristicCanvas();
+        HideInfoPopUp();
+        HideCharacteristicQuestionCanvas();
+        HideCharacteristicButtonCanvas();
+        HideConfirmQuestionButton();
     }
 
 

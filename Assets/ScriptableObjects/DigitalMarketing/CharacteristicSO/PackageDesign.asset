@@ -16,7 +16,7 @@ MonoBehaviour:
   characteristicName: PackageDesign
   characteristicDescription: Judge a book by it's cover. Special packaging helps
     a product stand out from the competition.
-  characteristicQuestion1: pd1
-  characteristicQuestion2: pd2
-  characteristicQuestion3: pd3
+  characteristicQuestion1: 'Use original packaging shapes, colors, or double-functionality. '
+  characteristicQuestion2: Copy other people's packaging but use new colors.
+  characteristicQuestion3: Make my package the biggest and brightest on the shelf.
   characteristicPreference: I want something that looks appealing.
