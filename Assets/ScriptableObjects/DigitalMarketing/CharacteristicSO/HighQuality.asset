@@ -16,7 +16,7 @@ MonoBehaviour:
   characteristicName: HighQuality
   characteristicDescription: Only the best for our customers. It may be more costly,
     but it's worth the premium value.
-  characteristicQuestion1: hq1
-  characteristicQuestion2: hq2
-  characteristicQuestion3: hq3
+  characteristicQuestion1: Make it appear well-made but still cut corners.
+  characteristicQuestion2: Use the most expensive materials with no budget planning.
+  characteristicQuestion3: Invest in good materials to have long-term brand credibility.
   characteristicPreference: I want something reliable.

@@ -16,7 +16,8 @@ MonoBehaviour:
   characteristicName: Convenient
   characteristicDescription: Quick to set up and easy to use. Perfect for people
     who are busy and always on the go.
-  characteristicQuestion1: c1
-  characteristicQuestion2: c2
-  characteristicQuestion3: c3
+  characteristicQuestion1: The product is so easy that I don't even have to try to
+    explain.
+  characteristicQuestion2: Use short steps to show how easy the product is.
+  characteristicQuestion3: Go into a bunch of detail on how easy the product is.
   characteristicPreference: I want something simple.

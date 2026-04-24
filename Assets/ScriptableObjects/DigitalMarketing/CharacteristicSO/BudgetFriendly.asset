@@ -16,7 +16,7 @@ MonoBehaviour:
   characteristicName: BudgetFriendly
   characteristicDescription: On the cheaper side of the market. Great for people
     looking for a great deal or on a tight budget.
-  characteristicQuestion1: Keep your prices lower than your competitors.
+  characteristicQuestion1: Keep my prices lower than your competitors.
   characteristicQuestion2: 'Have discount sales twice a year. '
   characteristicQuestion3: Cut corners to cut costs down.
   characteristicPreference: I want to save money.

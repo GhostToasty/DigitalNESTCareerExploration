@@ -16,7 +16,9 @@ MonoBehaviour:
   characteristicName: EthicallyMade
   characteristicDescription: Fair working conditions and animal-cruelty free. It's
     nice to know a product is made with care.
-  characteristicQuestion1: em1
-  characteristicQuestion2: em2
-  characteristicQuestion3: em3
+  characteristicQuestion1: Tell real authentic stories about the people I help support
+    with my business.
+  characteristicQuestion2: Put the workers on camera and have them say how they love
+    their jobs.
+  characteristicQuestion3: 'Exaggerate your stories on the impact that I have. '
   characteristicPreference: I want to support workers.
