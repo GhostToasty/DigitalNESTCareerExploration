@@ -8,17 +8,25 @@ public class DM_ScreenSwitch : MonoBehaviour
 
     [SerializeField] private Canvas startCanvas;
     [SerializeField] private Canvas replayCanvas;
+    [SerializeField] private Canvas gameLoseCanvas;
+    [SerializeField] private Canvas gameWinCanvas;
     [SerializeField] private Button startButton;
     [SerializeField] private Button replayButton;
+    [SerializeField] private Button replayLoseButton;
+    [SerializeField] private Button replayWinButton;
 
     
     private void Awake()
     {
         DM_CharacteristicTypeUI.OnReplayScreen += OnReplayScreen;
+        // DM_CharacteristicTypeUI.OnReplayWinScreen += OnReplayWinScreen;
+        // DM_CharacteristicTypeUI.OnReplayLoseScreen += OnReplayLoseScreen;
         DM_GameLogic.OnStartScreen += OnStartScreen;
         
         startButton.onClick.AddListener(() => { ClickStartButton(); });
         replayButton.onClick.AddListener(() => { ClickReplayButton(); });
+        // replayWinButton.onClick.AddListener(() => { ClickReplayWinButton(); });
+        // replayLoseButton.onClick.AddListener(() => { ClickReplayLoseButton(); });
     }
 
     
@@ -34,10 +42,20 @@ public class DM_ScreenSwitch : MonoBehaviour
         ShowReplayScreen();
     }
 
+    // public void OnReplayWinScreen()
+    // {
+    //     ShowReplayWinScreen();
+    // }
+    // public void OnReplayLoseScreen()
+    // {
+    //     ShowReplayLoseScreen();
+    // }
+
     public void OnStartScreen()
     {
         ShowStartScreen();
     }
+    
 
 
     private void ClickStartButton()
@@ -52,6 +70,20 @@ public class DM_ScreenSwitch : MonoBehaviour
         HideReplayScreen();
         OnRestartGameLoop?.Invoke();
     }
+
+
+    // private void ClickReplayWinButton()
+    // {
+    //     HideReplayWinScreen();
+    //     OnRestartGameLoop?.Invoke();
+    // }
+
+
+    // private void ClickReplayLoseButton()
+    // {
+    //     HideReplayLoseScreen();
+    //     OnRestartGameLoop?.Invoke();
+    // }
 
 
     //show and hiding functions 
@@ -76,4 +108,26 @@ public class DM_ScreenSwitch : MonoBehaviour
     {
         replayCanvas.gameObject.SetActive(false);
     }
+
+    
+    // private void ShowReplayLoseScreen()
+    // {
+    //     gameLoseCanvas.gameObject.SetActive(true);
+    // }
+
+    // private void HideReplayLoseScreen()
+    // {
+    //     gameLoseCanvas.gameObject.SetActive(false);
+    // }
+
+
+    // private void ShowReplayWinScreen()
+    // {
+    //     gameWinCanvas.gameObject.SetActive(true);
+    // }
+
+    // private void HideReplayWinScreen()
+    // {
+    //     gameWinCanvas.gameObject.SetActive(false);
+    // }
 }

@@ -7944,6 +7944,7 @@ MonoBehaviour:
   characteristicListSO: {fileID: 11400000, guid: 76448500b03c2064ab4b5cdce3cd8a48, type: 2}
   contentListSO: {fileID: 11400000, guid: ef05e84bc33f3d64eb30cfd064676f9b, type: 2}
   scoreBar: {fileID: 1797964934}
+  replayNum: 0
 --- !u!114 &1374294352
 MonoBehaviour:
   m_ObjectHideFlags: 0

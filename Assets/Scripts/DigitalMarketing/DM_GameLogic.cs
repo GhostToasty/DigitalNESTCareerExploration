@@ -38,7 +38,7 @@ public class DM_GameLogic : MonoBehaviour
 
     private void Awake()
     {
-        DM_CharacteristicTypeUI.OnDetermineWinState += OnDetermineWinState;
+        DM_CharacteristicTypeUI.OnDetermineGameState += OnDetermineGameState;
         DM_CharacteristicTypeUI.OnScoreBarUpdate += OnScoreBarUpdate;
         DM_ContentTypeUI.OnScoreBarUpdate += OnScoreBarUpdate;
         DM_ScreenSwitch.OnRestartGameLoop += OnRestartGameLoop;
@@ -65,25 +65,36 @@ public class DM_GameLogic : MonoBehaviour
         //randomizes which three characteristics the audience prefers 
         for (int i = 0; i < 3; i++)
         {
-            DM_CharacteristicSO audienceCharacteristic = characteristicListSO.characteristicSOList[Random.Range(0, characteristicListSO.characteristicSOList.Count)];
-            
+            // DM_CharacteristicSO audienceCharacteristic = characteristicListSO.characteristicSOList[Random.Range(0, characteristicListSO.characteristicSOList.Count - 1)];
+            DM_CharacteristicSO audienceCharacteristic = GenerateRandomAudienceTrait();
+
             if (!CheckAudienceCharacteristicDuplicates(audienceCharacteristic))
             {
                 audienceCharacteristicList.Add(audienceCharacteristic);
                 Debug.Log(audienceCharacteristicList[i].characteristicName);
             }
+
         }
         OnSetCharacteristicPreference?.Invoke(audienceCharacteristicList);
     }
 
 
+    private DM_CharacteristicSO GenerateRandomAudienceTrait()
+    {
+        DM_CharacteristicSO audienceCharacteristic = characteristicListSO.characteristicSOList[Random.Range(0, characteristicListSO.characteristicSOList.Count - 1)];
+        return audienceCharacteristic;
+    }
+
+    
     private void ClearRandomAudienceTraits()
     {
         audienceContentList.Remove(audienceContentList[0]);
+        Debug.Log(audienceCharacteristicList.Count - 1);
 
-        for (int i = 0; i < 2; i++)
+        for (int i = audienceCharacteristicList.Count - 1; i >= 0; i--)
         {
             audienceCharacteristicList.Remove(audienceCharacteristicList[i]);
+            Debug.Log("item removed");
         }
     }
 
@@ -94,7 +105,14 @@ public class DM_GameLogic : MonoBehaviour
         for (int i = 0; i < audienceCharacteristicList.Count; i++)
             {
                 if (audienceCharacteristicList[i] == audienceCharacteristic)
-                    return true;
+                {
+                    DM_CharacteristicSO newAudienceCharacteristic = GenerateRandomAudienceTrait();
+                    while (audienceCharacteristicList[i] == newAudienceCharacteristic)
+                    {
+                        GenerateRandomAudienceTrait();
+                    }
+                    audienceCharacteristicList[i] = newAudienceCharacteristic;
+                }
             }
         return false;
     }
@@ -162,28 +180,20 @@ public class DM_GameLogic : MonoBehaviour
     }
 
 
-    private void OnDetermineWinState()
+    private void OnDetermineGameState()
     {
         if (DetermineContentWin() && DetermineCharacteristicWin())
-        {
             Debug.Log("win both");
-        }
         else if (DetermineContentWin())
-        {
-            Debug.Log("win content");
-        }
+            Debug.Log("win one");
         else if (DetermineCharacteristicWin())
-        {
-            Debug.Log("win characteristic");
-        }
+            Debug.Log("win one");
         else
-        {
             Debug.Log("win none");
-        }
+
 
         firstRun = false;
         gameGoing = false;
-        
     }
 
 
