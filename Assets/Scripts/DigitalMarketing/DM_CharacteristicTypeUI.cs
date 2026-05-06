@@ -6,13 +6,18 @@ using System;
 public class DM_CharacteristicTypeUI : MonoBehaviour
 {
     [SerializeField] DM_CharacteristicListSO characteristicListSO;
+    [SerializeField] DM_GameLogic gameLogic;
     
-    public delegate void DetermineWinStateFunc();
-    public static event DetermineWinStateFunc OnDetermineWinState;
+    public delegate void DetermineGameStateFunc();
+    public static event DetermineGameStateFunc OnDetermineGameState;
     public delegate void ScoreBarUpdateFunc(string checkItem);
     public static event ScoreBarUpdateFunc OnScoreBarUpdate;
     public delegate void OnReplayScreenFunc();
     public static event OnReplayScreenFunc OnReplayScreen;
+    public delegate void OnReplayLoseScreenFunc();
+    public static event OnReplayLoseScreenFunc OnReplayLoseScreen;
+    public delegate void OnReplayWinScreenFunc();
+    public static event OnReplayWinScreenFunc OnReplayWinScreen;
 
     public DM_CharacteristicSO chosenCharacteristicSO;
     public Button correctCharacteristicAnswer;
@@ -152,8 +157,10 @@ public class DM_CharacteristicTypeUI : MonoBehaviour
         state = State.Default;
         Debug.Log(chosenCharacteristicSO);
 
+        
+        OnDetermineGameState?.Invoke(); 
         OnReplayScreen?.Invoke();
-        OnDetermineWinState?.Invoke();
+        
     }
 
 

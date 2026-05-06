@@ -29,7 +29,7 @@ public class DM_AudiencePersonaUI : MonoBehaviour
 
     public void OnSetCharacteristicPreference(List<DM_CharacteristicSO> audienceCharacteristicPreferenceList)
     {
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < audienceCharacteristicPreferenceList.Count; i++)
         {
             if(i == 0)
                 characteristic1PreferenceText.text = audienceCharacteristicPreferenceList[0].characteristicPreference;
